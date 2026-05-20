@@ -24,24 +24,5 @@ print (TST_FILE_PATH_01)
 # out.close()
 
 
-# LLM as JSON
-# json_data = pymupdf4llm.to_json(f"{FOLDER_IN}/response with audit trail_v01.pdf")
-
-# with open (f"{FOLDER_OUT}/JAD_AT_OUTPUT_LLM_v01.json", "w") as file:
-#     json.dump(json_data, file, ensure_ascii=False, indent=4)
-
-# LLM as MD
-#md = pymupdf4llm.to_markdown(f"{FOLDER_IN}/response with audit trail_v01.pdf")
-
-#with open (f"{FOLDER_OUT}/JAD_AT_OUTPUT_LLM_v01.md", "w", encoding="utf-8") as file:
-#    file.write (md)
-
-
-# LLM as TXT
-#txt = pymupdf4llm.to_text(f"{FOLDER_IN}/response with audit trail_v01.pdf")
-
-#with open (f"{FOLDER_OUT}/JAD_AT_OUTPUT_LLM_v01.txt", "w", encoding="utf-8") as file:
-#    file.write (txt)
-
 
 
