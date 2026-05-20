@@ -61,14 +61,40 @@ def convert_pdf_to_words(file_name:str)-> list:
     return all_words_list
 
 def find_anchor(tokens:list, *anchor_words)->int:
-    """Find the index of the first token in a known sequence of anchor words."""
+    """Find the index of the first token in a known sequence of anchor words.
+        Returns: int: -1 if the anchor word, or anchor word sequence does not exist in the given token list"""
+
+    # ORIGINAL FUNCTION START
+    # for i in range(len(tokens) - len(anchor_words) + 1): #limits loop to total list length - anchor list length + 1 to avoid searching out of the list (index out of range error)
+    #     if all(tokens[i + j].lower() == anchor_words[j].lower() for j in range(len(anchor_words))):
+    #         return i
+    # return -1 #  '-1' flag means: anchor words not found
+    # ORIGINAL FUNCITON END 
+
+    # SAME FUNCTION EASIER TO READ START
     total_tokens = len(tokens)
     total_anchors = len(anchor_words)
-    print (f"total_tokens={total_tokens}, total_anchors={total_anchors}")
+    search_limit = total_tokens - total_anchors + 1
+    logger.debug(f"total_tokens len= {total_tokens}, total_anchors len= {total_anchors}, type(anchor_words)= {type(anchor_words)}")
+    
+    for i in range (search_limit):
+        anchor_match = True
 
-    for i in range(len(tokens) - len(anchor_words) + 1): #limits loop to avoid searching out of the list (index error)
-        if all(tokens[i + j].lower() == anchor_words[j].lower() for j in range(len(anchor_words))):
+        # Word by word comparison:
+        for j in range (total_anchors):
+            token_word = tokens[i + j].lower()
+            anchor_word = anchor_words[j].lower()
+
+            # if a single word does not match -> break loop
+            if token_word != anchor_word:
+                anchor_match = False
+                break
+        
+        # If internal anchor loop finished and everything matched -> index found
+        if anchor_match:
+            logger.debug(f"Match found for anchor= {anchor_words} - Returning index= {i} ")
             return i
+    # If we parsed al text and no complete coincidence:
     return -1 #  '-1' flag means: anchor words not found
 
 
@@ -118,11 +144,12 @@ def main():
     # GET TOKENS
     tokens = word_list
 
-    # data = parse_jad(tokens)
+    data = parse_jad(tokens)
+    logger.debug(f"data type= {type(data)}, data= {data}")
 
     end_time = time.time()
     exec_time = end_time - start_time
-    logger.INFO(f"MAIN END - exec_time= {exec_time:.4f} seconds, end_time= {end_time}")
+    logger.info(f"MAIN END - exec_time= {exec_time:.4f} seconds, end_time= {end_time}")
     print ("- - END - - ")
     return 0
 
