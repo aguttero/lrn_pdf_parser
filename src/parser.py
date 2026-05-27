@@ -259,7 +259,8 @@ def parse_jad(tokens: list) -> dict:
         result["order_controlling"] = tokens[orden_ctrl_idx]
         logger.debug(f"order_controlling= {result['order_controlling']!r}")
 
-    # --- Descripcion del Servicio (Service Description) ---
+    # --- SENDER  ---
+    # Sender is the first email after the agreemen id token
 
     return result
 
