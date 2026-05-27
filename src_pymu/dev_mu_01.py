@@ -1,3 +1,4 @@
+import re
 import time
 from datetime import datetime
 import pymupdf
@@ -34,8 +35,8 @@ def init_logger():
 
 
 # STORAGE CONFIG
-FOLDER_IN = "storage/jad/"
-FOLDER_OUT = "storage/test_out/" 
+FOLDER_IN = "storage/jad_pdf/"
+FOLDER_OUT = "storage/jad_txt/" 
 
 #.ENV CONFIG
 config = dotenv_values(".env")
@@ -259,27 +260,36 @@ def main():
     logger.debug(f"MAIN START - start time= {start_time}")
     # file_name = config.get("TST_FILE_01")
 
+    # STEP 1 - FETCH AGREEMENT LIST FROM FILE
+    with open("storage/jad6_fnames.txt", "r") as file:
+        agreement_list = [line.strip() for line in file]
+
+    logger.debug(f"agreement_list_len= {len(agreement_list)} agreement_list= {agreement_list!r} ")
+
     # STEP 1 - FETCH AND CONVERT PDF FILE TO WORD LIST
-    #for i in range (1,5):
-    for i in range (1,2):
+    # for i in range (1,2):
+    for agrmnt in agreement_list:
 
-        # FETCH FILE NAME from ".env"
-        file_name = config.get(f"TST_FILE_0{i}")
-        logger.debug(f"Fetched file name from .env: {file_name!r}")
+        # TEST CODE FETCH FILE NAME from ".env"
+        # file_name = config.get(f"TST_FILE_0{i}")
 
+        file_name_pdf = f"{agrmnt}.pdf"
+        logger.debug(f"Fetching file= {file_name_pdf!r}")
+        
         # CONVERT FILE TO WORD LIST
-        word_list = convert_pdf_to_words(f"{FOLDER_IN}{file_name}")
+        word_list = convert_pdf_to_words(f"{FOLDER_IN}{file_name_pdf}")
         # print (word_list)
 
         # SAVE TO OUTPUT FOLDER
-        # save_words_file(word_list, f"{FOLDER_OUT}{file_name}")
+        save_words_file(word_list, f"{FOLDER_OUT}{file_name_pdf}")
+
 
     # STEP 2 - PARSE WORD LIST
     # GET TOKENS
-    tokens = word_list
+    # tokens = word_list
 
-    data = parse_jad(tokens)
-    logger.debug(f"data type= {type(data)}, data= {data}")
+    # data = parse_jad(tokens)
+    # logger.debug(f"data type= {type(data)}, data= {data}")
 
     end_time = time.time()
     exec_time = end_time - start_time
