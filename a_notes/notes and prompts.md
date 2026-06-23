@@ -75,6 +75,11 @@ You must populate the user's provided JSON schema according to these visual extr
    - If a text field in the form is physically blank, unreadable, or missing, populate it exactly as `null` (or an empty string `""` depending on schema restrictions). Do not invent data.
 
 # GOOGLE GENAI SDK EXAMPLE
+## Required PIP install
+pip install google-genai
+https://googleapis.github.io/python-genai/
+
+
 ## python code:
 ```python
 from google import genai
